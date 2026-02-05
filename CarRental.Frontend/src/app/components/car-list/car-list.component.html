@@ -1,0 +1,202 @@
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-badge">
+      Nueva flota disponible
+    </span>
+
+    <h1 class="hero-title">
+      Manejá el auto <br />
+      de <span>tus sueños</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      Flota premium, proceso simple y precios transparentes.
+      Alquilá en minutos y disfrutá la experiencia.
+    </p>
+
+    <div class="hero-actions">
+      <button
+        class="btn btn-alquilar hero-cta"
+        (click)="scrollToCatalog()">
+        Ver catálogo
+      </button>
+
+      <a
+        *ngIf="!authService.isLoggedIn()"
+        routerLink="/register"
+        class="btn btn-outline-primary hero-cta">
+        Crear cuenta
+      </a>
+    </div>
+
+    <div class="hero-features">
+  <div class="feature-item">
+    <i class="bi bi-shield-check"></i>
+    <span>Seguro incluido</span>
+  </div>
+
+  <div class="feature-item">
+    <i class="bi bi-clock-history"></i>
+    <span>24/7 soporte</span>
+  </div>
+
+  <div class="feature-item">
+    <i class="bi bi-credit-card"></i>
+    <span>Sin cargos ocultos</span>
+  </div>
+</div>
+
+  </div>
+</section>
+
+<!-- ¿CÓMO FUNCIONA? -->
+<section id="como-funciona" class="how-it-works">
+  <div class="container text-center">
+
+    <span class="hero-badge mb-3">
+      Simple y rápido
+    </span>
+
+    <h2 class="fw-bold mb-3">¿Cómo funciona?</h2>
+
+    <p class="section-subtitle mb-5">
+      Alquilar un auto nunca fue tan fácil. Solo tres simples pasos.
+    </p>
+
+    <div class="row g-4">
+
+      <div class="col-md-4">
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <h5>Elegí tu auto</h5>
+          <p>
+            Explorá nuestro catálogo y seleccioná el vehículo
+            perfecto para tu viaje.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <h5>Seleccioná fechas</h5>
+          <p>
+            Indicá inicio y fin del alquiler. El precio total
+            se calcula al instante.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <h5>Confirmá y disfrutá</h5>
+          <p>
+            Finalizá tu reserva y preparate para una experiencia
+            de manejo excepcional.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- CATÁLOGO -->
+<section id="catalogo" class="catalog-section">
+  <div class="container py-5">
+
+    <!-- INTRO CATÁLOGO -->
+    <div class="catalog-intro">
+      <span class="catalog-badge">Nuestra flota</span>
+      <h2 class="catalog-title">Catálogo de Vehículos</h2>
+      <p class="catalog-subtitle">
+        Explorá nuestra selección premium de vehículos.
+        Elegí el auto ideal y comenzá tu alquiler en minutos.
+      </p>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="text-center my-5">
+      <div class="spinner-border text-warning" role="status"></div>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="alert alert-danger text-center">
+      {{ error }}
+    </div>
+
+    <!-- Empty -->
+    <div
+      *ngIf="!loading && !error && cars.length === 0"
+      class="text-center text-muted py-5">
+      No hay autos disponibles en este momento
+    </div>
+
+    <!-- Grid -->
+    <div
+      *ngIf="!loading && !error && cars.length > 0"
+      class="row">
+
+      <div *ngFor="let car of cars" class="col-sm-6 col-lg-4 mb-4">
+
+        <div class="card card-rento h-100 car-card">
+
+          <div class="car-image-wrapper">
+            <img
+              class="car-image"
+              [src]="getCarImage(car)"
+              alt="{{ car.brand }} {{ car.model }}" />
+          </div>
+
+          <div class="card-body d-flex flex-column">
+
+            <div>
+              <div class="car-title mb-1">
+                {{ car.brand }} {{ car.model }}
+              </div>
+
+              <div class="car-meta mb-3">
+                <i class="bi bi-calendar"></i>
+                {{ car.year }}
+              </div>
+
+              <div class="car-price mb-4">
+                ${{ car.price | number:'1.2-2' }}
+                <span class="fs-6 opacity-75">/ día</span>
+              </div>
+            </div>
+
+            <div class="mt-auto">
+
+              <a
+                *ngIf="authService.isLoggedIn()"
+                [routerLink]="['/rental', car.id]"
+                class="btn btn-alquilar w-100">
+                Alquilar
+              </a>
+
+              <a
+                *ngIf="!authService.isLoggedIn()"
+                routerLink="/login"
+                class="btn btn-alquilar w-100">
+                Iniciar sesión para alquilar
+              </a>
+
+              <a
+                *ngIf="!authService.isLoggedIn()"
+                routerLink="/register"
+                class="text-center small d-block mt-2">
+                ¿No tenés cuenta? <strong>Registrate</strong>
+              </a>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

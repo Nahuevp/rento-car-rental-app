@@ -1,0 +1,52 @@
+<div class="container my-5">
+
+  <h2 class="fw-bold mb-4">Mis reservas</h2>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="alert alert-info">
+    {{ error }}
+  </div>
+
+  <!-- Reserva activa -->
+  <div *ngIf="rental" class="card card-rento">
+
+    <div class="card-body">
+
+      <h4 class="mb-3">
+        Reserva confirmada
+        <span class="badge bg-success ms-2">Activa</span>
+      </h4>
+
+      <p class="mb-2">
+        <strong>Auto:</strong>
+        {{ rental.car.brand }} {{ rental.car.model }} ({{ rental.car.year }})
+      </p>
+
+      <p class="mb-2">
+        <strong>Desde:</strong>
+        {{ rental.startDate | date:'dd/MM/yyyy' }}
+      </p>
+
+      <p class="mb-2">
+        <strong>Hasta:</strong>
+        {{ rental.endDate | date:'dd/MM/yyyy' }}
+      </p>
+
+      <p class="mb-3">
+        <strong>Total:</strong>
+        ${{ rental.totalPrice | number:'1.2-2' }}
+      </p>
+
+      <span class="text-accent fw-semibold">
+        Estado: {{ rental.status }}
+      </span>
+
+    </div>
+  </div>
+
+</div>

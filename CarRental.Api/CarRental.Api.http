@@ -1,0 +1,68 @@
+@host = http://localhost:5015
+
+### 🔍 Get all cars
+GET {{host}}/api/cars
+Accept: application/json
+
+###
+
+### 🔍 Get a specific car by ID
+GET {{host}}/api/cars/2
+Accept: application/json
+
+###
+
+### 🆕 Create a new car (valid: menos de 5 años)
+POST {{host}}/api/cars
+Content-Type: application/json
+
+{
+  "brand": "BMW",
+  "model": "E 320",
+  "price": 60,
+  "year": 2021
+}
+
+###
+
+### ❌ Create a car older than 5 years (should fail)
+POST {{host}}/api/cars
+Content-Type: application/json
+
+{
+  "brand": "BMW",
+  "model": "M3",
+  "price": 60.00,
+  "year": 2025
+}
+
+###
+
+### ✏️ Update existing car
+PUT {{host}}/api/cars/2
+Content-Type: application/json
+
+{
+  "id": 2,
+  "brand": "Mercedes Benz",
+  "model": "E 320",
+  "price": 50.00,
+  "year": 2021
+}
+
+###
+
+### 🗑️ Delete car
+DELETE {{host}}/api/cars/1
+
+###  Alquiler
+
+POST {{host}}/api/rentals
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "carId": 2,
+  "startDate": "2025-07-10T10:00:00",
+  "endDate": "2025-07-14T10:00:00"
+}

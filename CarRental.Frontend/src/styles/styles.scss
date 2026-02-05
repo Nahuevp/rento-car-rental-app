@@ -1,0 +1,20 @@
+@use './variables';
+@use './custom';
+
+/* =========================
+   CSS VARIABLES (THEME)
+========================= */
+
+:root {
+  --color-primary: #ff9800;
+  --color-primary-hover: #ffa733;
+
+  --bg-main: #0b0e14;
+  --bg-surface: #141824;
+  --bg-card: #1e2230;
+
+  --text-main: #ffffff;
+  --text-muted: #9ca3af;
+
+  --border-soft: #2a2f3d;
+}
