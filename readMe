@@ -1,16 +1,134 @@
-Restricciones de la aplicación
+🚗 Rento – Aplicación Full Stack de Alquiler de Vehículos
 
-Agregar un crud para coches
+Aplicación web full stack para la gestión de alquiler de vehículos de alta gama, desarrollada como proyecto personal.
+Permite a los usuarios registrarse, iniciar sesión, explorar el catálogo de autos, realizar una reserva y consultar su alquiler activo.
 
-Si un coche está siendo alquilado no podrá ser alquilado por otra persona
+🧱 Arquitectura
 
-Los coches no podrán darse de alta si tiene una antigüedad mayor que 5 años.
+Este proyecto contiene frontend y backend en el mismo repositorio, manteniendo una separación clara a nivel lógico:
 
+Frontend: Angular (SPA)
 
-Mejorar:
+Backend: ASP.NET Core (API REST)
 
-Validar que exista el usuario cuando se crea un alquiler
+Base de datos: SQL Server
 
-Agregar un crud para usuarios
+Ambas capas se comunican exclusivamente mediante APIs REST, respetando separación de responsabilidades.
 
-Agregar endpoint a RentalsController para obtener informes de los alquileres en curso o de los coches disponibles
+🖥️ Frontend (Angular)
+
+Aplicación SPA desarrollada en Angular.
+
+Arquitectura basada en componentes.
+
+Navegación mediante Angular Router.
+
+Guards de autenticación para proteger rutas privadas.
+
+Consumo de APIs REST del backend.
+
+Interfaz moderna y responsive con Bootstrap.
+
+Vista principal con:
+
+Hero de presentación
+
+Sección “Cómo funciona”
+
+Catálogo de vehículos
+
+Pantalla “Mis reservas”
+
+⚙️ Backend (ASP.NET Core)
+
+API REST desarrollada con ASP.NET Core.
+
+Arquitectura en capas (Controllers, Services, Models, DTOs).
+
+Gestión de:
+
+Usuarios
+
+Vehículos
+
+Reservas
+
+Reglas de negocio implementadas:
+
+Validación de disponibilidad de vehículos por fechas.
+
+Cálculo automático del precio total del alquiler.
+
+Restricción de una única reserva activa por usuario.
+
+Persistencia de datos con Entity Framework Core.
+
+Base de datos SQL Server.
+
+🗄️ Modelo de datos
+
+Entidades principales:
+
+User
+
+Car
+
+Rental
+
+Relaciones:
+
+Un usuario puede tener una reserva activa.
+
+Un vehículo puede tener múltiples reservas en distintos períodos, sin superposición de fechas.
+
+✨ Funcionalidades principales
+
+Registro e inicio de sesión de usuarios.
+
+Visualización del catálogo de autos.
+
+Creación de alquiler con selección de fechas.
+
+Cálculo automático de días y precio total.
+
+Validación de disponibilidad del vehículo.
+
+Vista “Mis reservas” con información detallada del alquiler activo.
+
+Protección de rutas para usuarios autenticados.
+
+🛠️ Tecnologías utilizadas
+
+- Frontend
+
+Angular
+
+TypeScript
+
+HTML5 / CSS3
+
+Bootstrap
+
+- Backend
+
+ASP.NET Core
+
+C#
+
+Entity Framework Core
+
+APIs REST
+
+Base de datos
+
+SQL Server
+
+📌 Notas finales
+
+Este proyecto fue desarrollado con fines educativos y de portfolio, enfocándose en:
+
+Buenas prácticas de separación de responsabilidades.
+
+Lógica de negocio realista.
+
+Integración completa frontend–backend
