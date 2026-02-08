@@ -273,3 +273,6 @@ C:\Proyectos Visual\CarRentalApi1\CarRental.Api\obj\Debug\net10.0\ref\CarRental.
 C:\Proyectos Visual\CarRentalApi1\CarRental.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Proyectos Visual\CarRentalApi1\CarRental.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Proyectos Visual\CarRentalApi1\CarRental.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Proyectos Visual\CarRentalApi1\CarRental.Api\obj\Debug\net10.0\CarRental.Api.sourcelink.json
+C:\Proyectos Visual\CarRentalApi1\CarRental.Api\bin\Debug\net10.0\Npgsql.dll
+C:\Proyectos Visual\CarRentalApi1\CarRental.Api\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll

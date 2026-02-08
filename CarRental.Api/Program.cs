@@ -26,12 +26,12 @@ var connectionString = builder.Configuration.GetConnectionString("Database");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(connectionString);
+    options.UseNpgsql(connectionString);
 });
 
 var app = builder.Build();
 
-
+// Swagger habilitado SIEMPRE (demo)
     app.UseSwagger();
     app.UseSwaggerUI();
 
@@ -44,5 +44,12 @@ app.UseCors("AllowAngular");
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Migraciones automáticas en Render
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
