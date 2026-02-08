@@ -1,5 +1,12 @@
 {
+  "installCommand": "cd CarRental.Frontend && npm install",
+  "buildCommand": "cd CarRental.Frontend && npm run build",
+  "outputDirectory": "CarRental.Frontend/dist/CarRental.Frontend/browser",
+  "framework": null,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }

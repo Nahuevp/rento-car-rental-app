@@ -42,9 +42,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
 
-    // SOLO EN DEV
-    using var scope = app.Services.CreateScope();
+// Migraciones en todos los entornos (necesario para Render/PostgreSQL)
+using (var scope = app.Services.CreateScope())
+{
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
     SeedData.Initialize(app);
