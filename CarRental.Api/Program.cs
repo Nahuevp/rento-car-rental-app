@@ -43,27 +43,20 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
-// Migraciones en todos los entornos (necesario para Render/PostgreSQL)
-using (var scope = app.Services.CreateScope())
-{
+    // SOLO EN DEV
+    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    try
-    {
-        db.Database.Migrate();
-    }
-    catch (PostgresException ex) when (ex.SqlState == "42P07")
-    {
-        // Tablas ya existen (ej: deploy previo, DB restaurada). Registrar migración para no volver a ejecutarla.
-        var migrationId = "20260208090429_InitialSqlite";
-        var productVersion = "10.0.2";
-        db.Database.ExecuteSqlRaw(
-            "INSERT INTO \"__EFMigrationsHistory\" (\"MigrationId\", \"ProductVersion\") VALUES ({0}, {1}) ON CONFLICT (\"MigrationId\") DO NOTHING",
-            migrationId, productVersion);
-    }
+    db.Database.Migrate();
     SeedData.Initialize(app);
 }
+else
+{
+    // EN PRODUCCIÓN: sin migraciones, sin seed
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 
 app.UseCors("AllowAngular");
 
