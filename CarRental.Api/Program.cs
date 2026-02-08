@@ -12,6 +12,20 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<IRentalService, RentalService>();
 
+var connectionString = builder.Configuration.GetConnectionString("Database");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        options.UseSqlite(connectionString);
+    }
+    else
+    {
+        options.UseNpgsql(connectionString);
+    }
+});
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
@@ -22,19 +36,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("Database");
-
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseSqlite(connectionString));
-}
-else
-{
-    builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseNpgsql(connectionString));
-}
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -42,10 +43,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
+    // SOLO EN DEV
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
-    SeedData.Initialize(db);
+    SeedData.Initialize(app);
 }
 
 app.UseCors("AllowAngular");
@@ -53,3 +55,4 @@ app.UseCors("AllowAngular");
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+

@@ -1,12 +1,19 @@
 using CarRental.Api.Data;
 using CarRental.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Api;
 
 public static class SeedData
 {
-    public static void Initialize(AppDbContext context)
+    public static void Initialize(IApplicationBuilder app)
     {
+        using var scope = app.ApplicationServices.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        // Solo para DEV
+        context.Database.Migrate();
+
         if (context.Cars.Any())
             return;
 
