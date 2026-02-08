@@ -16,10 +16,6 @@ RUN dotnet publish CarRental.Api/CarRental.Api.csproj -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/nightly/aspnet:10.0
 WORKDIR /app
 
-# Librería necesaria para Npgsql/PostgreSQL (evita libgssapi_krb5.so.2 error)
-RUN apt-get update && apt-get install -y --no-install-recommends libgssapi-krb5-2 \
-    && rm -rf /var/lib/apt/lists/*
-
 # Copiamos el publish
 COPY --from=build /app/publish .
 

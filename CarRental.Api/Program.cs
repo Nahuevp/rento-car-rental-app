@@ -2,7 +2,7 @@ using CarRental.Api;
 using CarRental.Api.Data;
 using CarRental.Api.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +17,6 @@ var connectionString = builder.Configuration.GetConnectionString("Database");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
     if (builder.Environment.IsDevelopment())
     {
         options.UseSqlite(connectionString);
@@ -50,7 +49,17 @@ if (app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    try
+    {
+        db.Database.Migrate();
+    }
+    catch (PostgresException ex) when (ex.SqlState == "42P07")
+    {
+        // Tabla ya existe (p. ej. deploy anterior parcial) - registrar migración aplicada
+        db.Database.ExecuteSqlRaw(
+            "INSERT INTO \"__EFMigrationsHistory\" (\"MigrationId\", \"ProductVersion\") VALUES ('20260208090429_InitialSqlite', '10.0.0') ON CONFLICT (\"MigrationId\") DO NOTHING");
+        db.Database.Migrate();
+    }
     SeedData.Initialize(app);
 }
 
