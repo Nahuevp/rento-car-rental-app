@@ -37,7 +37,7 @@ namespace CarRental.Api.Controllers
         }
 
         // GET: api/cars/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<CarDto>> GetCar(int id)
         {
             var car = await _carService.GetCarAsync(id);
@@ -58,7 +58,7 @@ namespace CarRental.Api.Controllers
         }
 
         // PUT: api/cars/5
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateCar(int id, CarDto carDto)
         {
             if (id != carDto.Id)
@@ -75,7 +75,7 @@ namespace CarRental.Api.Controllers
         }
 
         // DELETE: api/cars/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteCar(int id)
         {
             var deleted = await _carService.DeleteCarAsync(id);

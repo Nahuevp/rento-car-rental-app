@@ -8,23 +8,24 @@ import { API_URL } from '../config/api.config';
 })
 export class AuthService {
 
-  private apiUrl = `${API_URL}/cars`;
+  private apiUrl = `${API_URL}/auth`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  register(username: string, password: string): Observable<any> {
+  register(username: string, password: string) {
     return this.http.post(`${this.apiUrl}/register`, {
       username,
       password
     });
   }
 
-  login(username: string, password: string): Observable<any> {
+  login(username: string, password: string) {
     return this.http.post(`${this.apiUrl}/login`, {
       username,
       password
     });
   }
+
 
   saveUser(user: any): void {
     localStorage.setItem('user', JSON.stringify(user));
