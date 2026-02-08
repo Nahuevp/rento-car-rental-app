@@ -22,7 +22,12 @@ builder.Services.AddCors(options =>
     });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("Database");
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new Exception("❌ Connection string 'Database' not found");
+}
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -31,33 +36,22 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+/* Swagger SOLO en desarrollo */
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Migraciones SIEMPRE (Render incluido)
+/* Migraciones + Seed SIEMPRE */
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
-}
-
-// Seed solo en Development
-if (app.Environment.IsDevelopment())
-{
     SeedData.Initialize(app);
 }
 
-
-// ❌ DESACTIVADO PARA DEV
-// app.UseHttpsRedirection();
-
 app.UseCors("AllowAngular");
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
