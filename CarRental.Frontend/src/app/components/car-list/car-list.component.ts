@@ -45,22 +45,25 @@ export class CarListComponent implements OnInit {
     });
   }
   getCarImage(car: any): string {
-    const key = `${car.brand}-${car.model}`.toLowerCase().replace(/\s+/g, '');
+    const key = `${car.brand}-${car.model}`
+      .toLowerCase()
+      .replace(/\s+/g, '');
 
     const map: Record<string, string> = {
-      'mercedesbenz-e320': 'assets/cars/mercedes-e320.jpg',
-      'ford-m3': 'assets/cars/ford-m3.jpg',
-      'bmw-m3': 'assets/cars/bmw-m3.jpg'
+      'bmw-m3': 'assets/cars/bmw-m3.jpg',
+      'mercedesbenz-e220': 'assets/cars/mercedes-e320.jpg',
+      'ford-fiesta': 'assets/cars/ford-m3.jpg'
     };
 
     return map[key] || 'assets/cars/default-car.jpg';
   }
 
+
   scrollToCatalog(): void {
-  const el = document.getElementById('catalogo');
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' });
+    const el = document.getElementById('catalogo');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
   }
-}
 
 }
