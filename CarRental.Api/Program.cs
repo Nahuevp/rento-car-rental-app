@@ -31,6 +31,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+SeedData.Initialize(app);
+
 // Swagger habilitado SIEMPRE (demo)
     app.UseSwagger();
     app.UseSwaggerUI();

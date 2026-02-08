@@ -1,35 +1,48 @@
 using CarRental.Api.Data;
 using CarRental.Api.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Api
 {
     public static class SeedData
+{
+    public static void Initialize(IApplicationBuilder app)
     {
-        public static void Initialize(this IApplicationBuilder app)
-        {
-            using var scope = app.ApplicationServices.CreateScope();
-            using var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        using var scope = app.ApplicationServices.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            if (context.Users.Any())
-                return; // Ya hay usuarios
+        context.Database.Migrate();
 
-            var hasher = new PasswordHasher<User>();
+        if (context.Cars.Any())
+            return;
 
-            var alice = new User
+        context.Cars.AddRange(
+            new Car
             {
-                Username = "alice"
-            };
-            alice.PasswordHash = hasher.HashPassword(alice, "1234");
-
-            var bob = new User
+                Brand = "BMW",
+                Model = "M3",
+                Year = 2021,
+                Price = 60
+            },
+            new Car
             {
-                Username = "bob"
-            };
-            bob.PasswordHash = hasher.HashPassword(bob, "1234");
+                Brand = "Mercedes Benz",
+                Model = "E220",
+                Year = 2020,
+                Price = 70
+            },
+            new Car
+            {
+                Brand = "Ford",
+                Model = "M3",
+                Year = 2022,
+                Price = 55
+            }
+        );
 
-            context.Users.AddRange(alice, bob);
-            context.SaveChanges();
-        }
+        context.SaveChanges();
     }
+}
+
 }
