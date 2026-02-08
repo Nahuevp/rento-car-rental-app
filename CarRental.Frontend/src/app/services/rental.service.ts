@@ -3,12 +3,13 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { RentalDto, RentalResult } from '../models/rental.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RentalService {
-  private apiUrl = 'http://localhost:5015/api/rentals';
+  private apiUrl = `${environment.apiUrl}/rentals`;
 
   constructor(private http: HttpClient) { }
 
