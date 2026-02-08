@@ -36,18 +36,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
-/* Swagger SOLO en desarrollo */
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
-/* Migraciones + Seed SIEMPRE */
-using (var scope = app.Services.CreateScope())
-{
+    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
+
     SeedData.Initialize(app);
 }
 
