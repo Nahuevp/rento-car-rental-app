@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("Database");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -31,11 +31,24 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
-SeedData.Initialize(app);
-
-// Swagger habilitado SIEMPRE (demo)
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+// Migraciones SIEMPRE (Render incluido)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
+// Seed solo en Development
+if (app.Environment.IsDevelopment())
+{
+    SeedData.Initialize(app);
+}
 
 
 // ❌ DESACTIVADO PARA DEV
@@ -46,12 +59,5 @@ app.UseCors("AllowAngular");
 app.UseAuthorization();
 
 app.MapControllers();
-
-// Migraciones automáticas en Render
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
-}
 
 app.Run();
