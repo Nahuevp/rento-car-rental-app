@@ -24,15 +24,16 @@ builder.Services.AddCors(options =>
 
 var connectionString = builder.Configuration.GetConnectionString("Database");
 
-if (string.IsNullOrEmpty(connectionString))
+if (builder.Environment.IsDevelopment())
 {
-    throw new Exception("❌ Connection string 'Database' not found");
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlite(connectionString));
 }
-
-builder.Services.AddDbContext<AppDbContext>(options =>
+else
 {
-    options.UseNpgsql(connectionString);
-});
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(connectionString));
+}
 
 var app = builder.Build();
 
@@ -44,11 +45,11 @@ if (app.Environment.IsDevelopment())
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
-
-    SeedData.Initialize(app);
+    SeedData.Initialize(db);
 }
 
 app.UseCors("AllowAngular");
+
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

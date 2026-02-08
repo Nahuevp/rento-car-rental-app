@@ -1,19 +1,12 @@
 using CarRental.Api.Data;
 using CarRental.Api.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
-namespace CarRental.Api
+namespace CarRental.Api;
+
+public static class SeedData
 {
-    public static class SeedData
-{
-    public static void Initialize(IApplicationBuilder app)
+    public static void Initialize(AppDbContext context)
     {
-        using var scope = app.ApplicationServices.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-        context.Database.Migrate();
-
         if (context.Cars.Any())
             return;
 
@@ -35,7 +28,7 @@ namespace CarRental.Api
             new Car
             {
                 Brand = "Ford",
-                Model = "M3",
+                Model = "Fiesta",
                 Year = 2022,
                 Price = 55
             }
@@ -43,6 +36,4 @@ namespace CarRental.Api
 
         context.SaveChanges();
     }
-}
-
 }
