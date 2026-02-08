@@ -55,6 +55,7 @@ export class CarListComponent implements OnInit {
       'ford-fiesta': 'assets/cars/ford-m3.jpg'
     };
 
+
     return map[key] || 'assets/cars/default-car.jpg';
   }
 
