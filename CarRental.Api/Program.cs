@@ -43,8 +43,22 @@ builder.Services.AddCors(options =>
     });
 });
 
-
 var app = builder.Build();
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["Access-Control-Allow-Origin"] = "*";
+    context.Response.Headers["Access-Control-Allow-Headers"] = "*";
+    context.Response.Headers["Access-Control-Allow-Methods"] = "*";
+
+    if (context.Request.Method == "OPTIONS")
+    {
+        context.Response.StatusCode = 200;
+        return;
+    }
+
+    await next();
+});
 
 // 🔐 Swagger SOLO en local
 if (app.Environment.IsDevelopment())
