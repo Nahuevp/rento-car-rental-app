@@ -18,6 +18,16 @@ namespace CarRental.Api.Services
 
         public async Task<RentalResultDto> CreateRentalAsync(RentalDto rentalDto)
         {
+
+            if (rentalDto.UserId <= 0)
+            {
+                return new RentalResultDto
+                {
+                    Success = false,
+                    Error = "Usuario inválido."
+                };
+            }
+
             if (rentalDto.StartDate >= rentalDto.EndDate)
                 return new RentalResultDto { Success = false, Error = "Invalid rental period." };
 
