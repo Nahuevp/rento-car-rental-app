@@ -45,20 +45,21 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-app.Use(async (context, next) =>
+app.UseExceptionHandler(errorApp =>
 {
-    context.Response.Headers["Access-Control-Allow-Origin"] = "*";
-    context.Response.Headers["Access-Control-Allow-Headers"] = "*";
-    context.Response.Headers["Access-Control-Allow-Methods"] = "*";
-
-    if (context.Request.Method == "OPTIONS")
+    errorApp.Run(async context =>
     {
-        context.Response.StatusCode = 200;
-        return;
-    }
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "application/json";
 
-    await next();
+        context.Response.Headers["Access-Control-Allow-Origin"] = "*";
+        context.Response.Headers["Access-Control-Allow-Headers"] = "*";
+        context.Response.Headers["Access-Control-Allow-Methods"] = "*";
+
+        await context.Response.WriteAsync("{\"error\":\"Internal server error\"}");
+    });
 });
+
 
 // 🔐 Swagger SOLO en local
 if (app.Environment.IsDevelopment())
@@ -74,13 +75,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-// ⚠️ ORDEN IMPORTANTE
 app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
 
-app.MapControllers()
-   .RequireCors("AllowFrontend");
+app.MapControllers();
 
 
 app.Run();
