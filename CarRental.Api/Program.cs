@@ -37,14 +37,18 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy
-            .WithOrigins(
-                "http://localhost:4200",
-                "https://rento-car-rental-cu93pomd-nahuel-vieras-projects.vercel.app"
-            )
+            .SetIsOriginAllowed(origin =>
+            {
+                if (origin == null) return false;
+
+                return origin.StartsWith("http://localhost")
+                    || origin.Contains(".vercel.app");
+            })
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
 });
+
 
 var app = builder.Build();
 
