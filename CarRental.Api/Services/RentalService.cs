@@ -93,15 +93,27 @@ namespace CarRental.Api.Services
         {
             var today = DateTime.Today;
 
-            var lastEndDate = await _context.Rentals
-                .Where(r => r.CarId == carId && r.EndDate >= today)
-                .MaxAsync(r => (DateTime?)r.EndDate);
+            var rentals = _context.Rentals
+                .Where(r => r.CarId == carId && r.EndDate >= today);
+
+            DateTime availableFrom;
+
+            if (await rentals.AnyAsync())
+            {
+                var lastEndDate = await rentals.MaxAsync(r => r.EndDate);
+                availableFrom = lastEndDate.AddDays(1);
+            }
+            else
+            {
+                availableFrom = today;
+            }
 
             return new CarAvailabilityDto
             {
-                AvailableFrom = lastEndDate?.AddDays(1) ?? today
+                AvailableFrom = availableFrom
             };
         }
+
 
         public async Task<Rental?> GetActiveRentalByUserAsync(int userId)
         {
