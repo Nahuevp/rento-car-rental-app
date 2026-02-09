@@ -58,10 +58,13 @@ if (app.Environment.IsDevelopment())
     SeedData.Initialize(app);
 }
 
+app.UseRouting();
+
 // ⚠️ ORDEN IMPORTANTE
 app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
+
 app.MapControllers()
    .RequireCors("AllowFrontend");
 
