@@ -21,21 +21,22 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   onSubmit(): void {
     this.loading = true;
     this.error = null;
 
-    this.authService.login(this.username, this.password).subscribe({
-      next: (user) => {
-        this.authService.saveUser(user);
-        this.router.navigate(['/']);
-      },
-      error: () => {
-        this.error = 'Usuario o contraseña incorrectos';
-        this.loading = false;
-      }
-    });
+    this.authService.login(this.username, this.password)
+      .subscribe({
+        next: (user: any) => {
+          this.authService.saveUser(user);
+          this.router.navigate(['/']); // o donde corresponda
+        },
+        error: () => {
+          this.error = 'Usuario o contraseña incorrectos';
+        }
+      });
+
   }
 }

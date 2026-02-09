@@ -61,7 +61,7 @@ namespace CarRental.Api.Controllers
         [HttpGet("active/{userId}")]
         public async Task<IActionResult> GetActiveRental(int userId)
         {
-            var rental = await _rentalService.GetActiveRentalByUserAsync(1);
+            var rental = await _rentalService.GetActiveRentalByUserAsync(userId);
 
             if (rental == null)
                 return NotFound("No hay reservas activas");

@@ -37,7 +37,7 @@ namespace CarRental.Api.Services
 
             // 🚫 1 reserva activa por usuario
             bool hasActiveRental = await _context.Rentals.AnyAsync(r =>
-                r.UserId == 1 &&
+                r.UserId == rentalDto.UserId &&
                 r.EndDate >= DateTime.UtcNow.Date
             );
 
@@ -64,7 +64,7 @@ namespace CarRental.Api.Services
 
             var rental = new Rental
             {
-                UserId = 1, // USUARIO DEMO
+                UserId = rentalDto.UserId,
                 CarId = rentalDto.CarId,
                 StartDate = rentalDto.StartDate,
                 EndDate = rentalDto.EndDate,
