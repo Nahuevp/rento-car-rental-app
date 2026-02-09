@@ -44,7 +44,6 @@ builder.Services.AddCors(options =>
 });
 
 
-
 var app = builder.Build();
 
 // 🔐 Swagger SOLO en local
@@ -63,6 +62,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
-app.MapControllers();
+app.MapControllers()
+   .RequireCors("AllowFrontend");
+
 
 app.Run();
