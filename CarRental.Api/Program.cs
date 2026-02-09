@@ -2,13 +2,17 @@ using CarRental.Api;
 using CarRental.Api.Data;
 using CarRental.Api.Services;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Swagger SOLO se registra (UI + OpenAPI) en Development
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+}
 
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<IRentalService, RentalService>();
@@ -27,40 +31,39 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     }
 });
 
+// 🔐 CORS seguro
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular", policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy
+            .WithOrigins(
+                "http://localhost:4200",
+                "https://rento-car-rental-cu93pomd-nahuel-vieras-projects.vercel.app"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
 
+// 🔐 Swagger SOLO en local
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    // SOLO EN DEV
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
     SeedData.Initialize(app);
 }
-else
-{
-    // EN PRODUCCIÓN: sin migraciones, sin seed
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
-
-app.UseCors("AllowAngular");
+// ⚠️ ORDEN IMPORTANTE
+app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
 app.MapControllers();
-app.Run();
 
+app.Run();
