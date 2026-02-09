@@ -14,32 +14,24 @@ public static class SeedData
         // Solo para DEV
         context.Database.Migrate();
 
-        if (context.Cars.Any())
-            return;
+        // 👤 Usuario demo (SIEMPRE comprobar)
+        if (!context.Users.Any())
+        {
+            context.Users.Add(new User
+            {
+                Id = 1,
+                Username = "demo",
+                PasswordHash = "demo",
+                CreatedAt = DateTime.UtcNow
+            });
+        }
 
-        context.Cars.AddRange(
-            new Car
-            {
-                Brand = "BMW",
-                Model = "M3",
-                Year = 2021,
-                Price = 60
-            },
-            new Car
-            {
-                Brand = "Mercedes Benz",
-                Model = "E220",
-                Year = 2020,
-                Price = 70
-            },
-            new Car
-            {
-                Brand = "Ford",
-                Model = "Fiesta",
-                Year = 2022,
-                Price = 55
-            }
-        );
+        // 🚗 Autos (solo si no existen)
+        if (!context.Cars.Any())
+        {
+            // Si ya los cargás manualmente, este bloque puede quedar vacío
+            // o directamente eliminarse
+        }
 
         context.SaveChanges();
     }

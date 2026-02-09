@@ -64,12 +64,13 @@ namespace CarRental.Api.Services
 
             var rental = new Rental
             {
-                UserId = rentalDto.UserId,
+                UserId = 1, // USUARIO DEMO
                 CarId = rentalDto.CarId,
                 StartDate = rentalDto.StartDate,
                 EndDate = rentalDto.EndDate,
                 Price = totalPrice
             };
+
 
             _context.Rentals.Add(rental);
             await _context.SaveChangesAsync();
