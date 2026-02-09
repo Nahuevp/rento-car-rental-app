@@ -37,8 +37,8 @@ namespace CarRental.Api.Services
 
             // 🚫 1 reserva activa por usuario
             bool hasActiveRental = await _context.Rentals.AnyAsync(r =>
-                r.UserId == rentalDto.UserId &&
-                r.EndDate >= DateTime.Today
+                r.UserId == 1 &&
+                r.EndDate >= DateTime.UtcNow.Date
             );
 
             if (hasActiveRental)
@@ -85,7 +85,7 @@ namespace CarRental.Api.Services
 
         public async Task<List<RentalPeriodDto>> GetActiveRentalsByCarAsync(int carId)
         {
-            var today = DateTime.Today;
+            var today = DateTime.UtcNow.Date;
 
             return await _context.Rentals
                 .Where(r =>
@@ -102,7 +102,7 @@ namespace CarRental.Api.Services
 
         public async Task<CarAvailabilityDto> GetCarAvailabilityAsync(int carId)
         {
-            var today = DateTime.Today;
+            var today = DateTime.UtcNow.Date;
 
             var rentals = await _context.Rentals
                 .Where(r => r.CarId == carId && r.EndDate >= today)
@@ -126,13 +126,11 @@ namespace CarRental.Api.Services
             };
         }
 
-
-
         public async Task<Rental?> GetActiveRentalByUserAsync(int userId)
         {
             return await _context.Rentals
                 .Include(r => r.Car)
-                .Where(r => r.UserId == userId && r.EndDate >= DateTime.Today)
+                .Where(r => r.UserId == userId && r.EndDate >= DateTime.UtcNow.Date)
                 .OrderByDescending(r => r.StartDate)
                 .FirstOrDefaultAsync();
         }
