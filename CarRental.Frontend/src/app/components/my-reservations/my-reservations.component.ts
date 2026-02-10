@@ -19,7 +19,7 @@ export class MyReservationsComponent implements OnInit {
   constructor(
     private rentalService: RentalService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const user = this.authService.getUser();
@@ -40,5 +40,16 @@ export class MyReservationsComponent implements OnInit {
       }
     });
   }
+
+  formatDate(date: string | Date): string {
+    const d = new Date(date);
+    return new Date(d.getTime() + d.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split('T')[0]
+      .split('-')
+      .reverse()
+      .join('/');
+  }
+
 }
 

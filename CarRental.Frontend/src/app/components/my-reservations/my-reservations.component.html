@@ -29,13 +29,14 @@
 
       <p class="mb-2">
         <strong>Desde:</strong>
-        {{ rental.startDate | date:'dd/MM/yyyy' }}
+        {{ formatDate(rental.startDate) }}
       </p>
 
       <p class="mb-2">
         <strong>Hasta:</strong>
-        {{ rental.endDate | date:'dd/MM/yyyy' }}
+        {{ formatDate(rental.endDate) }}
       </p>
+
 
       <p class="mb-3">
         <strong>Total:</strong>
