@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260311061510_FixPostgresModel")]
-    partial class FixPostgresModel
+    [Migration("20260311062055_InitialPostgres")]
+    partial class InitialPostgres
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
