@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260311062055_InitialPostgres")]
+    [Migration("20260311062911_InitialPostgres")]
     partial class InitialPostgres
     {
         /// <inheritdoc />
