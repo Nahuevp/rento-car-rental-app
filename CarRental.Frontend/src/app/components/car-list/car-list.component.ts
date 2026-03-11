@@ -51,10 +51,9 @@ export class CarListComponent implements OnInit {
 
     const map: Record<string, string> = {
       'bmw-m3': 'assets/cars/bmw-m3.jpg',
-      'mercedesbenz-e220': 'assets/cars/mercedes-e320.jpg',
-      'ford-fiesta': 'assets/cars/ford-m3.jpg'
+      'ford-mustang': 'assets/cars/ford-mustang.jpg',
+      'mercedes-e320': 'assets/cars/mercedes-e320.jpg'
     };
-
 
     return map[key] || 'assets/cars/default-car.jpg';
   }
