@@ -1,5 +1,6 @@
 using CarRental.Api;
 using CarRental.Api.Data;
+using CarRental.Api.Models;
 using CarRental.Api.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -70,8 +71,40 @@ if (app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
     db.Database.EnsureCreated();
+
+    if (!db.Cars.Any())
+    {
+        db.Cars.AddRange(
+    new Car
+    {
+        Brand = "BMW",
+        Model = "M3",
+        Year = 2022,
+        Price = 120
+    },
+    new Car
+    {
+        Brand = "Ford",
+        Model = "Mustang",
+        Year = 2021,
+        Price = 100
+    },
+    new Car
+    {
+        Brand = "Mercedes",
+        Model = "E320",
+        Year = 2023,
+        Price = 140
+    }
+);
+
+        db.SaveChanges();
+    }
 }
+
+
 
 app.UseRouting();
 
