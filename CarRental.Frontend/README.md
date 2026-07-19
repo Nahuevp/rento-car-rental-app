@@ -17,7 +17,7 @@ npm install
 
 ## Configuración
 
-Asegúrate de que el backend esté ejecutándose en `https://localhost:7287` (o ajusta la URL en los servicios si es diferente).
+Asegúrate de que el backend esté ejecutándose en `http://localhost:5015` (o ajusta la URL en `src/app/config/api.config.ts` si es diferente).
 
 ## Ejecutar la aplicación
 

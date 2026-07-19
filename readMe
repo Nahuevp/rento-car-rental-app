@@ -11,7 +11,7 @@ Frontend: Angular (SPA)
 
 Backend: ASP.NET Core (API REST)
 
-Base de datos: SQL Server
+Base de datos: SQLite en desarrollo y PostgreSQL en producción
 
 Ambas capas se comunican exclusivamente mediante APIs REST, respetando separación de responsabilidades.
 
@@ -63,7 +63,7 @@ Restricción de una única reserva activa por usuario.
 
 Persistencia de datos con Entity Framework Core.
 
-Base de datos SQL Server.
+Persistencia con SQLite en desarrollo y PostgreSQL en producción.
 
 🗄️ Modelo de datos
 
@@ -121,7 +121,7 @@ APIs REST
 
 Base de datos
 
-SQL Server
+SQLite (desarrollo) / PostgreSQL (producción)
 
 📌 Notas finales
 
